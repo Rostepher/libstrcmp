@@ -1,14 +1,12 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
-#define equal(a, b) (tolower(a) == tolower(b))
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define min3(a, b, c) ((a) < (b) ?\
-        ((a) < (c) ? (a) : (c)) :\
-        ((b) < (c) ? (b) : (c)))
+#include "common.h"
 
+
+/**
+ *
+ */
 int optimal_string_alignment(const char *str1, const char *str2) {
     // initialize size and counter variables
     int str1_len = strlen(str1);
@@ -16,7 +14,7 @@ int optimal_string_alignment(const char *str1, const char *str2) {
     int x, y, cost, result;
 
     // remove common substring
-    while (str1_len > 0 && str2_len > 0 && equal(str1[0], str2[0]))
+    while (str1_len > 0 && str2_len > 0 && EQ(str1[0], str2[0]))
         str1++, str2++, str1_len--, str2_len--;
 
     // handle cases where one string is empty
@@ -38,14 +36,14 @@ int optimal_string_alignment(const char *str1, const char *str2) {
     // itterate through and fill in the matrix
     for (x = 1; x <= str1_len; x++) {
         for (y = 1; y <= str2_len; y++) {
-            cost = equal(str1[x-1], str2[y-1]) ? 0 : 1;
-            matrix[x][y] = min3(matrix[x-1][y] + 1,
+            cost = EQ(str1[x-1], str2[y-1]) ? 0 : 1;
+            matrix[x][y] = MIN3(matrix[x-1][y] + 1,
                                 matrix[x][y-1] + 1,
                                 matrix[x-1][y-1] + cost);
 
             // handle transpositions
-            if (x > 1 && y > 1 && equal(str1[x], str2[y-1]) && equal(str1[x-1], str2[y])) {
-                matrix[x][y] = min(matrix[x][y], matrix[x-2][y-2] + cost);
+            if (x > 1 && y > 1 && EQ(str1[x], str2[y-1]) && EQ(str1[x-1], str2[y])) {
+                matrix[x][y] = MIN(matrix[x][y], matrix[x-2][y-2] + cost);
             }
         }
     }

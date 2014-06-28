@@ -3,7 +3,6 @@
 #include <ctype.h>
 
 char encode_char(const char input) {
-    // the character to encode as lowercase to make comparisons easier
     char c = tolower(input);
 
     // chars to replace where the index + 1 is the value

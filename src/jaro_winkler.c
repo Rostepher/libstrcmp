@@ -1,15 +1,13 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
-#define TRUE    1
-#define FALSE   0
+#include "common.h"
 
-#define max(a, b) ((a) > (b) ? (a) : (b))
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define equal(a, b) (tolower(a) == tolower(b))
-#define not_equal(a, b) (tolower(a) != tolower(b))
 
+/**
+ *
+ */
 double jaro(const char *str1, const char *str2) {
     // length of the strings, stops the repeated use of strlen
     int str1_len = strlen(str1);
@@ -21,7 +19,7 @@ double jaro(const char *str1, const char *str2) {
 
     // max distance between two chars to be considered matching
     // floor() is ommitted due to integer division rules
-    int match_distance = (int) max(str1_len, str2_len)/2 - 1;
+    int match_distance = (int) MAX(str1_len, str2_len)/2 - 1;
 
     // arrays of bools that signify if that char in the matcing string has a match
     int *str1_matches = calloc(str1_len, sizeof(int));
@@ -34,18 +32,18 @@ double jaro(const char *str1, const char *str2) {
     // find the matches
     for (int i = 0; i < str1_len; i++) {
         // start and end take into account the match distance
-        int start = max(0, i - match_distance);
-        int end = min(i + match_distance + 1, str2_len);
+        int start = MAX(0, i - match_distance);
+        int end = MIN(i + match_distance + 1, str2_len);
 
         // add comments...
         for (int k = start; k < end; k++) {
             // if str2 already has a match continue
             if (str2_matches[k]) continue;
             // if str1 and str2 are not
-            if (not_equal(str1[i], str2[k])) continue;
+            if (NOT_EQ(str1[i], str2[k])) continue;
             // otherwise assume there is a match
-            str1_matches[i] = TRUE;
-            str2_matches[k] = TRUE;
+            str1_matches[i] = true;
+            str2_matches[k] = true;
             matches++;
             break;
         }
@@ -66,7 +64,7 @@ double jaro(const char *str1, const char *str2) {
         // while there is no match in str2 increment k
         while (!str2_matches[k]) k++;
         // increment transpositions
-        if (not_equal(str1[i], str2[k])) transpositions++;
+        if (NOT_EQ(str1[i], str2[k])) transpositions++;
         k++;
     }
 
@@ -75,7 +73,7 @@ double jaro(const char *str1, const char *str2) {
     // instances of the transposed characters.
     transpositions /= 2.0;
 
-    // free dat allocated memory !VERY IMPORTANT!
+    // cleanup
     free(str1_matches);
     free(str2_matches);
 
@@ -85,6 +83,9 @@ double jaro(const char *str1, const char *str2) {
         ((matches - transpositions) / matches)) / 3.0;
 }
 
+/**
+ *
+ */
 double jaro_winkler(const char *str1, const char *str2) {
     // compute the jaro distance
     double dist = jaro(str1, str2);
@@ -92,7 +93,7 @@ double jaro_winkler(const char *str1, const char *str2) {
     // finds the number of common terms in the first 3 strings, max 3.
     int prefix_length = 0;
     if (strlen(str1) != 0 && strlen(str2) != 0)
-        while (prefix_length < 3 && equal(*str1++, *str2++)) prefix_length++;
+        while (prefix_length < 3 && EQ(*str1++, *str2++)) prefix_length++;
 
     // 0.1 is the default scaling factor
     return dist + prefix_length * 0.1 * (1 - dist);
