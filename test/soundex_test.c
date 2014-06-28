@@ -1,14 +1,7 @@
 #include "strcmp.h"
 
-void test_hamming() {}
-void test_jaro() {}
-void test_jaro_winkler() {}
-void test_levenshtein() {}
-void test_damerau_levenshtein() {}
-void test_optimal_string_alignment() {}
-
 void test_soundex() {
-    const char *sdx, *tests[][2] = {
+    const char *tests[][2] = {
         {"Soundex",     "S532"},
         {"Example",     "E251"},
         {"Sownteks",    "S532"},
@@ -41,14 +34,17 @@ void test_soundex() {
     };
 
     printf("Testing Soundex:\n");
-    int i = 0, passed = 0;
-    for (; tests[i][0]; i++) {
-        sdx = soundex(tests[i][0]);
-        if (!strcmp(sdx, tests[i][1])) {
+
+    char *sndx;
+    int i;
+    int passed = 0;
+    for (i = 0; tests[i][0]; i++) {
+        sndx = soundex(tests[i][0]);
+        if (!strcmp(sndx, tests[i][1])) {
             printf(".");
             passed++;
         } else {
-            printf("\nError (expected '%s' : recieved '%s')", tests[i][1], sdx);
+            printf("\nError (expected '%s' : recieved '%s')", tests[i][1], sndx);
         }
     }
     printf("\npassed: %d/%d\n", passed, i);

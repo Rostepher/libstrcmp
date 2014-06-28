@@ -15,11 +15,12 @@ double jaro(const char *str1, const char *str2) {
 
     // if both strings are empty return 1
     // if only one of the strings is empty return 0
-    if (str1_len == 0) return str2_len == 0 ? 1.0 : 0.0;
+    if (str1_len == 0)
+        return (str2_len == 0) ? 1.0 : 0.0;
 
     // max distance between two chars to be considered matching
     // floor() is ommitted due to integer division rules
-    int match_distance = (int) MAX(str1_len, str2_len)/2 - 1;
+    int match_dist = (int) MAX(str1_len, str2_len)/2 - 1;
 
     // arrays of bools that signify if that char in the matcing string has a match
     int *str1_matches = calloc(str1_len, sizeof(int));
@@ -27,13 +28,13 @@ double jaro(const char *str1, const char *str2) {
 
     // number of matches and transpositions
     double matches = 0.0;
-    double transpositions = 0.0;
+    double trans = 0.0;
 
     // find the matches
     for (int i = 0; i < str1_len; i++) {
         // start and end take into account the match distance
-        int start = MAX(0, i - match_distance);
-        int end = MIN(i + match_distance + 1, str2_len);
+        int start = MAX(0, i - match_dist);
+        int end = MIN(i + match_dist + 1, str2_len);
 
         // add comments...
         for (int k = start; k < end; k++) {
@@ -63,15 +64,15 @@ double jaro(const char *str1, const char *str2) {
         if (!str1_matches[i]) continue;
         // while there is no match in str2 increment k
         while (!str2_matches[k]) k++;
-        // increment transpositions
-        if (NOT_EQ(str1[i], str2[k])) transpositions++;
+        // increment trans
+        if (NOT_EQ(str1[i], str2[k])) trans++;
         k++;
     }
 
     // divide the number of transpositions by two as per the algorithm specs
     // this division is valid because the counted transpositions include both
     // instances of the transposed characters.
-    transpositions /= 2.0;
+    trans /= 2.0;
 
     // cleanup
     free(str1_matches);
@@ -80,7 +81,7 @@ double jaro(const char *str1, const char *str2) {
     // return the jaro distance
     return ((matches / str1_len) +
         (matches / str2_len) +
-        ((matches - transpositions) / matches)) / 3.0;
+        ((matches - trans) / matches)) / 3.0;
 }
 
 /**
