@@ -1,27 +1,41 @@
-#include <stdio.h>
+#include <stddef.h>
 #include <string.h>
 
 /**
  *  Computes and returns the hamming distance between two strings. Both strings
- *  must have the same length.
+ *  must have the same length and not be NULL.
  *
  *  @param str1 first string
  *  @param str2 second string
  *
  *  @returns hamming distance or -1 if str1 and st2 did not have the same
- *      length
+ *      length or if one or both str1 and str2 were NULL
  */
-int hamming(const char *str1, const char *str2) {
+int hamming(const char *str1, const char *str2)
+{
+    // check for NULL pointers
+    if ((str1 == NULL && str2 == NULL)
+        || (str1 != NULL && str2 == NULL)
+        || (str1 == NULL && str2 != NULL))
+        return -1;
+
+    // calculate length of strings
+    size_t str1_len = strlen(str1);
+    size_t str2_len = strlen(str2);
+
+    // handle cases where one or both strings are empty
+    if (str1_len == 0)
+        return (str2_len == 0) ? 0 : -1;
+
     // if the string lengths do not match return -1
     if (strlen(str1) != strlen(str2))
         return -1;
 
-    // while the string lengths are greater than zero, add the outcome of the
-    // boolean expression comparing the chars at both pointers to the distance
-    // variable and then increment the pointers
     int dist = 0;
-    while (strlen(str1) > 0 && strlen(str2) > 0)
+    while (str1_len > 0 && str2_len > 0) {
         dist += (*str1++ == *str2++);
+        str1_len--, str2_len--;
+    }
 
     return dist;
 }

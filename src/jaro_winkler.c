@@ -2,13 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
+#include "macros.h"
 
 
 /**
+ *  Calculates and returns the Jaro distance of two strings.
  *
+ *  @param str1 first string
+ *  @param str2 second string
+ *
+ *  @returns the jaro distance of str1 and str2
  */
-double jaro(const char *str1, const char *str2) {
+double jaro(const char *str1, const char *str2)
+{
     // length of the strings, stops the repeated use of strlen
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);
@@ -85,9 +91,15 @@ double jaro(const char *str1, const char *str2) {
 }
 
 /**
+ *  Calculates and returns the Jaro-Winkler distance of two strings.
  *
+ *  @param str1 first string
+ *  @param str2 second string
+ *
+ *  @returns the jaro-winkler distance of str1 and str2
  */
-double jaro_winkler(const char *str1, const char *str2) {
+double jaro_winkler(const char *str1, const char *str2)
+{
     // compute the jaro distance
     double dist = jaro(str1, str2);
 

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
+#include "macros.h"
 
 
 // TODO make max_offset and max_dist optional with -1 value
@@ -20,7 +20,7 @@
  *
  *  @returns sift3 distance of str1 and str2
  */
-double sift3(const char *str1, const char *str2, unsigned int max_offset)
+double sift3(const char *str1, const char *str2, unsigned max_offset)
 {
     // check for NULL pointers
     if (str1 == NULL && str2 == NULL)
@@ -32,8 +32,8 @@ double sift3(const char *str1, const char *str2, unsigned int max_offset)
     if (str1 != NULL && str2 == NULL)
         return (double) strlen(str1);
 
-    unsigned int str1_len = strlen(str1);
-    unsigned int str2_len = strlen(str2);
+    unsigned str1_len = strlen(str1);
+    unsigned str2_len = strlen(str2);
 
     // if both strings are empty return 0
     // if only one of the strings is empty return str2_len
@@ -43,16 +43,16 @@ double sift3(const char *str1, const char *str2, unsigned int max_offset)
     if (str2_len == 0)
         return (double) str1_len;
 
-    unsigned int lcs = 0;   // lowest common substring
-    unsigned int c1 = 0;    // current index/char in str1
-    unsigned int c2 = 0;    // current index/char in str2
+    unsigned lcs = 0;   // lowest common substring
+    unsigned c1 = 0;    // current index/char in str1
+    unsigned c2 = 0;    // current index/char in str2
 
     // calculate lowest common substring
     while ((c1 < str1_len) && (c2 < str2_len)) {
         if (EQ(str1[c1], str2[c2])) {
-            lcs += 1;
+            lcs++;
         } else {
-            for (unsigned int i = 0; i < max_offset; i++) {
+            for (unsigned i = 0; i < max_offset; i++) {
                 // check if c1 + i is out of bounds
                 // and if the char at c1 + i is equal to c2
                 if ((c1 + i < str1_len) && (EQ(str1[c1 + i], str2[c2]))) {
@@ -67,8 +67,8 @@ double sift3(const char *str1, const char *str2, unsigned int max_offset)
             }
         }
 
-        c1 += 1;
-        c2 += 1;
+        c1++;
+        c2++;
     }
 
     return ((str1_len + str2_len) / 2.0 - lcs);
@@ -89,7 +89,7 @@ double sift3(const char *str1, const char *str2, unsigned int max_offset)
  */
 double swift3B(const char *str1,
                const char *str2,
-               unsigned int max_offset,
+               unsigned max_offset,
                double max_dist)
 {
     // check for NULL pointers
@@ -102,8 +102,8 @@ double swift3B(const char *str1,
     if (str1 != NULL && str2 == NULL)
         return (double) strlen(str1);
 
-    unsigned int str1_len = strlen(str1);
-    unsigned int str2_len = strlen(str2);
+    unsigned str1_len = strlen(str1);
+    unsigned str2_len = strlen(str2);
 
     // if both strings are empty return 0
     // if only one of the strings is empty return str2_len
@@ -113,22 +113,22 @@ double swift3B(const char *str1,
     if (str2_len == 0)
         return (double) str1_len;
 
-    unsigned int lcs = 0;   // lowest common substring
-    unsigned int c1 = 0;    // current index/char in str1
-    unsigned int c2 = 0;    // current index/char in str2
+    unsigned lcs = 0;   // lowest common substring
+    unsigned c1 = 0;    // current index/char in str1
+    unsigned c2 = 0;    // current index/char in str2
     double temp_dist;
 
     // calculate lowest common substring
     while ((c1 < str1_len) && (c2 < str2_len)) {
         if (EQ(str1[c1], str2[c2])) {
-            lcs += 1;
+            lcs++;
         } else {
 
             if (c1 < c2)
                 c2 = c1;
             else c1 = c2;
 
-            for (unsigned int i = 0; i < max_offset; i++) {
+            for (unsigned i = 0; i < max_offset; i++) {
                 // check if c1 + i is out of bounds
                 // and if the char at c1 + i is equal to c2
                 if ((c1 + i < str1_len) && (EQ(str1[c1 + i], str2[c2]))) {
@@ -143,8 +143,8 @@ double swift3B(const char *str1,
             }
         }
 
-        c1 += 1;
-        c2 += 1;
+        c1++;
+        c2++;
 
         // check if current distance is greater than max_dist
         temp_dist = (c1 + c2) / 1.5 - lcs;

@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-char encode_char(const char input) {
+char encode_char(const char input)
+{
     char c = tolower(input);
 
     // chars to replace where the index + 1 is the value
@@ -17,7 +18,8 @@ char encode_char(const char input) {
     return '0';
 }
 
-char *soundex(const char *str) {
+char *soundex(const char *str)
+{
     // initialize variables
     char *code = malloc(5 * sizeof(char));
     char *encoded_str = malloc(strlen(str) * sizeof(char));
@@ -45,7 +47,8 @@ char *soundex(const char *str) {
     }
 
     // pad the end of the code with 0s if the code is too short
-    while (digits < 4) code[digits++] = '0';
+    while (digits < 4)
+        code[digits++] = '0';
 
     // free the heap of the encoded string and return the pointer to the code
     free(encoded_str);

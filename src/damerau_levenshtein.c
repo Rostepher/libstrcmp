@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
+#include "macros.h"
 
 
 /**
  *
  */
-int damerau_levenshtein(const char *str1, const char *str2) {
+int damerau_levenshtein(const char *str1, const char *str2)
+{
     // initialize size and counter variables
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);
@@ -36,7 +37,6 @@ int damerau_levenshtein(const char *str1, const char *str2) {
 
     // add code here
 
-    // free dat memory!
     for (int i = 0; i < str1_len + 1; i++) free(matrix[i]);
     free(matrix);
 

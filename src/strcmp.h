@@ -4,11 +4,11 @@
 // phonetics
 char *soundex(const char *);
 
-// distances
-double jaro(char *, char *);
-double jaro_winkler(char *, char *);
+// distance metrics
+double jaro(const char *, const char *);
+double jaro_winkler(const char *, const char *);
+unsigned levenshtein(const char *, const char *);
+int damerau_levenshtein(const char *, const char *);
 int hamming(const char *, const char *);
-int levenshtein(const char *, const char *);
-int damerau_levenshtien(const char *, const char *);
 
-#endif // STRCMP_H
+#endif STRCMP_H

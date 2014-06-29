@@ -1,13 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
+#include "macros.h"
 
 
 /**
  *
  */
-int optimal_string_alignment(const char *str1, const char *str2) {
+int optimal_string_alignment(const char *str1, const char *str2)
+{
     // initialize size and counter variables
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);

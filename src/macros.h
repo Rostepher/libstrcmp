@@ -1,5 +1,5 @@
-#ifndef STRCMP_COMMON_H
-#define STRCMP_COMMON_H
+#ifndef STRCMP_MACROS_H
+#define STRCMP_MACROS_H
 
 #ifdef STRCMP_CASE_INSENSATIVE
 # include <ctype.h>
@@ -16,4 +16,4 @@
 #define MAX(a, b) ((a) > (b)) ? (a) : (b)
 #define MAX3(a, b, c) MAX(MAX(a, b), c)
 
-#endif // STRCMP_COMMON_H
+#endif // STRCMP_MACROS_H
