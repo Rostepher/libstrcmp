@@ -1,8 +1,9 @@
+#include <assert.h>
+#include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 
-char encode_char(const char input)
+static char encode_char(const char input)
 {
     char c = tolower(input);
 
@@ -18,8 +19,14 @@ char encode_char(const char input)
     return '0';
 }
 
+/**
+ *
+ */
 char *soundex(const char *str)
 {
+    // string cannot be NULL
+    assert(str != NULL);
+
     // initialize variables
     char *code = malloc(5 * sizeof(char));
     char *encoded_str = malloc(strlen(str) * sizeof(char));

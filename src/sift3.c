@@ -1,6 +1,7 @@
 // Sift3 algorithm created by Siderite Zackwehdex
 // http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,24 +15,19 @@
  *  closer the returned value is to 0, the more similar the two strings are.
  *  With 0 being an exact match. The max offset should be around 5ish.
  *
- *  @param str1 first string
- *  @param str2 second string
+ *  @param str1 first non NULL string
+ *  @param str2 second non NULL string
  *  @param max_offset maximum offset to search for lowest common substring
  *
  *  @returns sift3 distance of str1 and str2
  */
 double sift3(const char *str1, const char *str2, unsigned max_offset)
 {
-    // check for NULL pointers
-    if (str1 == NULL && str2 == NULL)
-        return 0.0;
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
 
-    if (str1 == NULL && str2 != NULL)
-        return (double) strlen(str2);
-
-    if (str1 != NULL && str2 == NULL)
-        return (double) strlen(str1);
-
+    // calculate string lengths
     unsigned str1_len = strlen(str1);
     unsigned str2_len = strlen(str2);
 

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -15,15 +16,9 @@
  */
 unsigned levenshtien(const char *str1, const char *str2)
 {
-    // check for NULL pointers
-    if (str1 == NULL && str2 == NULL)
-        return 0;
-
-    if (str1 != NULL && str2 == NULL)
-        return strlen(str1);
-
-    if (str1 == NULL && str2 != NULL)
-        return strlen(str2);
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
 
     // calculate length of strings
     size_t str1_len = strlen(str1);

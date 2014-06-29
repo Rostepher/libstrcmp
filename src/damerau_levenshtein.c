@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -9,6 +10,10 @@
  */
 int damerau_levenshtein(const char *str1, const char *str2)
 {
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
     // initialize size and counter variables
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);

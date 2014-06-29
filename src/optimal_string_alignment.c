@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -9,9 +10,13 @@
  */
 int optimal_string_alignment(const char *str1, const char *str2)
 {
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
     // initialize size and counter variables
-    int str1_len = strlen(str1);
-    int str2_len = strlen(str2);
+    size_t str1_len = strlen(str1);
+    size_t str2_len = strlen(str2);
     int x, y, cost, result;
 
     // remove common substring

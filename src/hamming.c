@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -13,11 +14,9 @@
  */
 int hamming(const char *str1, const char *str2)
 {
-    // check for NULL pointers
-    if ((str1 == NULL && str2 == NULL)
-        || (str1 != NULL && str2 == NULL)
-        || (str1 == NULL && str2 != NULL))
-        return -1;
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
 
     // calculate length of strings
     size_t str1_len = strlen(str1);
@@ -28,7 +27,7 @@ int hamming(const char *str1, const char *str2)
         return (str2_len == 0) ? 0 : -1;
 
     // if the string lengths do not match return -1
-    if (strlen(str1) != strlen(str2))
+    if (str1_len != str2_len)
         return -1;
 
     int dist = 0;

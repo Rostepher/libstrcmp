@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,13 +9,17 @@
 /**
  *  Calculates and returns the Jaro distance of two strings.
  *
- *  @param str1 first string
- *  @param str2 second string
+ *  @param str1 first non NULL string
+ *  @param str2 second non NULL string
  *
  *  @returns the jaro distance of str1 and str2
  */
 double jaro(const char *str1, const char *str2)
 {
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
     // length of the strings, stops the repeated use of strlen
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);
@@ -91,15 +96,19 @@ double jaro(const char *str1, const char *str2)
 }
 
 /**
- *  Calculates and returns the Jaro-Winkler distance of two strings.
+ *  Calculates and returns the Jaro-Winkler distance of two non NULL strings.
  *
- *  @param str1 first string
- *  @param str2 second string
+ *  @param str1 first non NULL string
+ *  @param str2 second non NULL string
  *
  *  @returns the jaro-winkler distance of str1 and str2
  */
 double jaro_winkler(const char *str1, const char *str2)
 {
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
     // compute the jaro distance
     double dist = jaro(str1, str2);
 
