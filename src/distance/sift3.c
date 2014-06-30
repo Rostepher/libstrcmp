@@ -34,8 +34,7 @@ double sift3(const char *str1, const char *str2, unsigned max_offset)
     // if both strings are empty return 0
     // if only one of the strings is empty return str2_len
     if (str1_len == 0)
-        return (str2_len == 0) ? 0.0 : (double) str2_len;
-
+        return (double) str2_len;
     if (str2_len == 0)
         return (double) str1_len;
 
@@ -88,24 +87,18 @@ double swift3B(const char *str1,
                unsigned max_offset,
                double max_dist)
 {
-    // check for NULL pointers
-    if (str1 == NULL && str2 == NULL)
-        return 0.0;
+    // strings cannot be NULL
+    assert(str1 != NULL);
+    assert(str2 != NULL);
 
-    if (str1 == NULL && str2 != NULL)
-        return (double) strlen(str2);
-
-    if (str1 != NULL && str2 == NULL)
-        return (double) strlen(str1);
-
+    // calculate string lengths
     unsigned str1_len = strlen(str1);
     unsigned str2_len = strlen(str2);
 
     // if both strings are empty return 0
     // if only one of the strings is empty return str2_len
     if (str1_len == 0)
-        return (str2_len == 0) ? 0.0 : (double) str2_len;
-
+        return (double) str2_len;
     if (str2_len == 0)
         return (double) str1_len;
 
@@ -119,10 +112,10 @@ double swift3B(const char *str1,
         if (EQ(str1[c1], str2[c2])) {
             lcs++;
         } else {
-
             if (c1 < c2)
                 c2 = c1;
-            else c1 = c2;
+            else
+                c1 = c2;
 
             for (unsigned i = 0; i < max_offset; i++) {
                 // check if c1 + i is out of bounds
