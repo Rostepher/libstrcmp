@@ -10,7 +10,7 @@ implemented are:
 String Distance Metrics
 -----------------------
 1. Hamming Distance
-    * https://en.wikipedia.org/wiki/
+    * https://en.wikipedia.org/wiki/Hamming_distance
 2. Levenshtein Distance
     * https://en.wikipedia.org/wiki/Levenshtein_distance
 3. Damerau-Levenshtein Distance
