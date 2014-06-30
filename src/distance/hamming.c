@@ -23,16 +23,18 @@ int hamming(const char *str1, const char *str2)
     size_t str2_len = strlen(str2);
 
     // handle cases where one or both strings are empty
-    if (str1_len == 0)
-        return (str2_len == 0) ? 0 : -1;
-
-    // if the string lengths do not match return -1
-    if (str1_len != str2_len)
+    if (str1_len != str2_len
+        || (str1_len == 0 && str2_len == 0))
         return -1;
+
+    // create separate pointers
+    char *str1_ptr = str1;
+    char *str2_ptr = str2;
 
     int dist = 0;
     while (str1_len > 0 && str2_len > 0) {
-        dist += (*str1++ == *str2++);
+        dist += (*str1_ptr == *str2_ptr);
+        str1_ptr++, str2_ptr++;
         str1_len--, str2_len--;
     }
 

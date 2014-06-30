@@ -15,33 +15,45 @@ int damerau_levenshtein(const char *str1, const char *str2)
     assert(str2 != NULL);
 
     // calculate size of strings
-    int str1_len = strlen(str1);
-    int str2_len = strlen(str2);
-
-    // remove common substring
-    // while (str1_len > 0 && str2_len > 0 && EQ(str1[0], str2[0]))
-    //     str1++, str2++, str1_len--, str2_len--;
+    size_t str1_len = strlen(str1);
+    size_t str2_len = strlen(str2);
 
     // handle cases where one or both strings are empty
     if (str1_len == 0)
-        return (str2_len == 0) ? 0 : str2_len;
+        return str2_len;
+    if (str2_len == 0)
+        return str1_len;
+
+    // create new string pointers
+    char *str1_ptr = str1;
+    char *str2_ptr = str2;
+
+    // remove common substring
+    // while (str1_len > 0 && str2_len > 0
+    //        && EQ(str1_ptr[0], str2_ptr[0])) {
+    //     str1_ptr++, str2_ptr++;
+    //     str1_len--, str2_len--;
+    // }
+
+    unsigned row, col;
 
     // initialize matrix to hold distance values
     unsigned **matrix = malloc((str1_len + 1) * sizeof(unsigned *));
-    for (x = 0; x <= str1_len; x++)
-        matrix[x] = malloc((str2_len + 1) * sizeof(unsigned));
+    for (row = 0; row <= str1_len; row++)
+        matrix[row] = malloc((str2_len + 1) * sizeof(unsigned));
 
     // set all the starting values and add all characters to the dict
     matrix[0][0] = 0;
-    for (x = 1; x <= str1_len; x++) {
-        matrix[x][0] = x;
+    for (row = 1; row <= str1_len; row++) {
+        matrix[row][0] = row;
     }
-    for (y = 1; y <= str2_len; y++) {
-        matrix[0][y] = y;
+    for (col = 1; col <= str2_len; col++) {
+        matrix[0][col] = col;
     }
 
     // add code here
 
+    // free matrix
     for (int i = 0; i < str1_len + 1; i++) free(matrix[i]);
     free(matrix);
 

@@ -20,47 +20,61 @@ unsigned levenshtien(const char *str1, const char *str2)
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    // calculate length of strings
+    // calculate size of strings
     size_t str1_len = strlen(str1);
     size_t str2_len = strlen(str2);
 
     // handle cases where one or both strings are empty
     if (str1_len == 0)
-        return (str2_len == 0) ? 0 : 1;
+        return str2_len;
+    if (str2_len == 0)
+        return str1_len;
 
-    // initialize variables
-    unsigned i, k;
-    unsigned last_diag, current, cost;
+    // create new string pointers
+    char *str1_ptr = str1;
+    char *str2_ptr = str2;
 
     // remove common substring
-    while (str1_len > 0 && str2_len > 0 && EQ(str1[0], str2[0]))
-        str1++, str2++, str1_len--, str2_len--;
+    while (str1_len > 0 && str2_len > 0
+           && EQ(str1_ptr[0], str2_ptr[0])) {
+        str1_ptr++, str2_ptr++;
+        str1_len--, str2_len--;
+    }
+
+    // declare variables
+    unsigned row, col;
+    unsigned last_diag, cur, cost;
 
     // initialize array to hold values
-    unsigned *column = calloc(str1_len + 1,  sizeof(unsigned));
-    for (y = 1; y <= str1_len; y++) column[y] = y;
+    unsigned *vector = calloc(str1_len + 1,  sizeof(unsigned));
+    for (col = 1; col <= str1_len; col++)
+        vector[col] = col;
 
     // itterate through the imagined rows of arrays
-    for (x = 1; x <= str2_len + 1; x++) {
-        column[0] = x;
-        last_diag = x - 1;  // remember the last first slot
+    for (row = 1; row <= str2_len + 1; row++) {
+        vector[0] = row;
+        last_diag = row - 1;  // remember the last first slot
 
-        // itterate throught each member of the column
-        for (y = 1; y <= str1_len; y++) {
+        // itterate throught each member of the vector
+        for (col = 1; col <= str1_len; col++) {
             // remember the diagonal before overwriting the array
-            current = column[y];
+            cur = vector[col];
 
             // calculate the cost
-            cost = EQ(str1[y-1], str2[x-1]) ? 0 : 1;
+            cost = EQ(str1_ptr[col - 1], str2_ptr[row - 1]) ? 0 : 1;
 
             // determine min of the possible values
-            column[y] = MIN3(column[y] + 1, column[y-1] + 1, last_diag + cost);
+            vector[col] = MIN3(
+                vector[col] + 1,
+                vector[col - 1] + 1,
+                last_diag + cost
+            );
 
             // remember the new last_diag
-            last_diag = current;
+            last_diag = cur;
         }
     }
 
-    free(column);
+    free(vector);
     return last_diag;
 }
