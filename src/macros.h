@@ -12,8 +12,10 @@
 
 #define MIN(a, b) ((a) < (b)) ? (a) : (b)
 #define MIN3(a, b, c) MIN(MIN(a, b), c)
+#define MIN4(a, b, c, d) MIN(MIN(a, b), MIN(c, d))
 
 #define MAX(a, b) ((a) > (b)) ? (a) : (b)
 #define MAX3(a, b, c) MAX(MAX(a, b), c)
+#define MAX4(a, b, c, d) MAX(MAX(a, b), MAX(b, c))
 
 #endif // STRCMP_MACROS_H

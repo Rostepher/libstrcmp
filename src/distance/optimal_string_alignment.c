@@ -24,14 +24,10 @@ unsigned optimal_string_alignment(const char *str1, const char *str2)
     if (str2_len == 0)
         return str1_len;
 
-    // create new string pointers
-    char *str1_ptr = str1;
-    char *str2_ptr = str2;
-
     // remove common substring
     while (str1_len > 0 && str2_len > 0
-           && EQ(str1_ptr[0], str2_ptr[0])) {
-        str1_ptr++, str2_ptr++;
+           && EQ(str1[0], str2[0])) {
+        str1++, str2++;
         str1_len--, str2_len--;
     }
 
@@ -52,7 +48,7 @@ unsigned optimal_string_alignment(const char *str1, const char *str2)
     // itterate through and fill in the matrix
     for (row = 1; row <= str1_len; row++) {
         for (col = 1; col <= str2_len; col++) {
-            cost = EQ(str1_ptr[row - 1], str2_ptr[col - 1]) ? 0 : 1;
+            cost = EQ(str1[row - 1], str2[col - 1]) ? 0 : 1;
 
             matrix[row][col] = MIN3(
                 matrix[row - 1][col] + 1,         // deletion
@@ -62,8 +58,8 @@ unsigned optimal_string_alignment(const char *str1, const char *str2)
 
             // transpositions
             if (row > 1 && col > 1
-                && EQ(str1_ptr[row], str2_ptr[col - 1])
-                && EQ(str1_ptr[row - 1], str2_ptr[col])) {
+                && EQ(str1[row], str2[col - 1])
+                && EQ(str1[row - 1], str2[col])) {
 
                 matrix[row][col] = MIN(
                         matrix[row][col],

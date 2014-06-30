@@ -30,14 +30,10 @@ unsigned levenshtien(const char *str1, const char *str2)
     if (str2_len == 0)
         return str1_len;
 
-    // create new string pointers
-    char *str1_ptr = str1;
-    char *str2_ptr = str2;
-
     // remove common substring
     while (str1_len > 0 && str2_len > 0
-           && EQ(str1_ptr[0], str2_ptr[0])) {
-        str1_ptr++, str2_ptr++;
+           && EQ(str1[0], str2[0])) {
+        str1++, str2++;
         str1_len--, str2_len--;
     }
 
@@ -61,7 +57,7 @@ unsigned levenshtien(const char *str1, const char *str2)
             cur = vector[col];
 
             // calculate the cost
-            cost = EQ(str1_ptr[col - 1], str2_ptr[row - 1]) ? 0 : 1;
+            cost = EQ(str1[col - 1], str2[row - 1]) ? 0 : 1;
 
             // determine min of the possible values
             vector[col] = MIN3(

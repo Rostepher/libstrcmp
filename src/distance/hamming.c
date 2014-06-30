@@ -27,14 +27,10 @@ int hamming(const char *str1, const char *str2)
         || (str1_len == 0 && str2_len == 0))
         return -1;
 
-    // create separate pointers
-    char *str1_ptr = str1;
-    char *str2_ptr = str2;
-
     int dist = 0;
     while (str1_len > 0 && str2_len > 0) {
-        dist += (*str1_ptr == *str2_ptr);
-        str1_ptr++, str2_ptr++;
+        dist += (*str1 == *str2);
+        str1++, str2++;
         str1_len--, str2_len--;
     }
 
