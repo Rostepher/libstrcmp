@@ -65,6 +65,7 @@ unsigned damerau_levenshtein(const char *str1,
 
     unsigned db;    // no idea what this is
     unsigned i, j;  // also no idea what these are
+    unsigned cost;
 
     // fill in the matrix
     for (row = 1; row <= str1_len; row++) {
@@ -79,34 +80,21 @@ unsigned damerau_levenshtein(const char *str1,
                 db = col;
 
             matrix[row + 1][col + 1] = MIN4(
-                matrix[row, col],
+                matrix[row][col],
                 matrix[row + 1][col],
                 matrix[row][col + 1],
-                (matrix[i][j] + (row - i - 1) + (col - j - 1) + 1)
+                matrix[i][j] + (row - i - 1) + (col - j - 1) + 1
             );
         }
 
         dict[(int) str1[row - 1]] = row;
     }
 
-    unsigned result = matrix[str1_len + 1][str2_len + 2];
+    unsigned result = matrix[str1_len + 1][str2_len + 1];
 
     // free matrix
     for (int i = 0; i < str1_len + 2; i++) free(matrix[i]);
     free(matrix);
 
     return result;
-}
-
-#include <stdio.h>
-#define ALPHABET_SIZE 256
-int main()
-{
-    // expect DL -> 2
-    char *str1 = "CA";
-    char *str2 = "ABC";
-
-    printf("DL(\"%s\", \"%s\") = %d\n", str1, str2,
-        damerau_levenshtein(str1, str2, ALPHABET_SIZE));
-
 }

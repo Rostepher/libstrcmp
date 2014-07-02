@@ -3,61 +3,96 @@
 #include <string.h>
 #include <stdlib.h>
 
-static char encode_char(const char input)
+#include "macros.h"
+
+static char encode_char(const char c)
 {
-    char c = tolower(input);
+    switch (tolower(c)) {
+        case b:
+        case p:
+        case f:
+        case v:
+            return '1';
 
-    // chars to replace where the index + 1 is the value
-    char *values[] = {"bfpv", "cgjkqsxz", "dt", "l", "mn", "r"};
+        case c:
+        case s:
+        case k:
+        case g:
+        case j:
+        case q:
+        case x:
+        case z:
+            return '2';
 
-    // loop through each value char[] and check if c is present
-    for (int i = 0; i < 6; i++)
-        // if c is in the char[] value[i] return the proper char of its index + 1
-        if (strchr(values[i], c) != NULL) return '0' + (i + 1);
+        case d:
+        case t:
+            return '3';
+
+        case l:
+            return '4';
+
+        case m:
+        case n:
+            return '5';
+
+        case r:
+            return '6';
+
+        default:
+            break;
+    }
 
     // otherwise return '0'
     return '0';
 }
 
-/**
- *
- */
 char *soundex(const char *str)
 {
     // string cannot be NULL
     assert(str != NULL);
 
-    // initialize variables
-    char *code = malloc(5 * sizeof(char));
-    char *encoded_str = malloc(strlen(str) * sizeof(char));
+    size_t str_len = strlen(str);
 
-    // set the first value of the code to the uppercase of the first char in str
+    // allocate space for final code
+    char *code = malloc(5 * sizeof(char));
+
+    // temporary buffer to encode string
+    char buf[str_len];
+
+    // set first value to first char in str
     code[0] = toupper(str[0]);
 
-    // the number of digits in the code[] (max 4), acts as an index
-    int digits = 1;
+    // number of digits in code
+    unsigned d = 0;
 
-    // encode all the characters in the given string
-    for (int i = 0; i < strlen(str); i++)
-        encoded_str[i] = encode_char(str[i]);
+    // encode all chars in str
+    for (unsigned i = 0; i < str_len; i++)
+        buf[i] = encode_char(str[i]);
 
-    // loop through and add all viable encoded chars to the code
-    for (int i = 1; i < strlen(encoded_str) && digits < 4; i++) {
-        if (encoded_str[i] != encoded_str[i-1] && encoded_str[i] != '0') {
-            // if numbers separated by an 'h' or 'w' are the same, skip them
-            if (i > 1 && encoded_str[i] == encoded_str[i-2] && strchr("hw", str[i-1]))
+    // add all viable chars to code
+    for (unsigned i = 1; i < str_len && d < 4; i++) {
+
+        // check if current char in buf is not the same as previous char
+        // and that the current char is not '0'
+        if (NOT_EQ(buf[i], buf[i - 1]) && NOT_EQ(buf[i], '0')) {
+
+            // if digits separated by an 'h' or 'w' are the same, skip them
+            if (i > 1 && EQ(buf[i], buf[i - 2]) && strchr("hw", str[i - 1]))
                 continue;
-            // otherwise add the digits to the code and increment the digit count
-            code[digits++] = encoded_str[i];
+
+            // add digit to the code
+            code[d] = buf[i];
+
+            // increment digit counter
+            d++;
         }
-        // printf("code = %s\n", code);
     }
 
-    // pad the end of the code with 0s if the code is too short
-    while (digits < 4)
-        code[digits++] = '0';
+    // pad the end of code with '0' if too short
+    while (d < 4) {
+        code[d] = '0';
+        d++;
+    }
 
-    // free the heap of the encoded string and return the pointer to the code
-    free(encoded_str);
     return code;
 }
