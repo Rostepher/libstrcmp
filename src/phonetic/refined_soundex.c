@@ -8,40 +8,40 @@
 static char encode_char(const char c)
 {
     switch (tolower(c)) {
-        case b:
-        case p:
+        case 'b':
+        case 'p':
             return '1';
 
-        case f:
-        case v:
+        case 'f':
+        case 'v':
             return '2';
 
-        case c:
-        case k:
-        case s:
+        case 'c':
+        case 'k':
+        case 's':
             return '3';
 
-        case g:
-        case j:
+        case 'g':
+        case 'j':
             return '4';
 
-        case q:
-        case x:
-        case z:
+        case 'q':
+        case 'x':
+        case 'z':
             return '5';
 
-        case d:
-        case t:
+        case 'd':
+        case 't':
             return '6';
 
-        case l:
+        case 'l':
             return '7';
 
-        case m:
-        case n:
+        case 'm':
+        case 'n':
             return '8';
 
-        case r:
+        case 'r':
             return '9';
 
         default:
@@ -60,7 +60,7 @@ char *refined_soundex(const char *str)
     size_t str_len = strlen(str);
 
     // allocate space for final code shrink later if too long
-    char *code = malloc(str_len * sizeof(char));
+    char *code = malloc((str_len + 1) * sizeof(char));
 
     // temporary buffer to encode string
     char buf[str_len];
@@ -69,30 +69,49 @@ char *refined_soundex(const char *str)
     code[0] = toupper(str[0]);
 
     // number of digits in code
-    unsigned d = 0;
+    unsigned d = 1;
 
     // encode all chars in str
     for (unsigned i = 0; i < str_len; i++)
         buf[i] = encode_char(str[i]);
 
     // add all viable chars to code
-    for (unsigned i = 1; i < str_len && d < 4; i++) {
+    char prev = '\0';
+    for (unsigned i = 0; i < str_len; i++) {
 
         // check if current char in buf is not the same as previous char
-        // and that the current char is not '0'
-        if (NOT_EQ(buf[i], buf[i - 1]) && NOT_EQ(buf[i], '0')) {
+        if (NOT_EQ(buf[i], prev)) {
 
             // add digit to the code
             code[d] = buf[i];
 
             // increment digit counter
             d++;
+
+            // set prev to current char
+            prev = buf[i];
         }
     }
 
-    // if calculated code does not fill all the allocated space, realloc
-    if (d < str_len)
-        realloc(code, d * sizeof(char));
+    // if calculated code does not fill all the allocated space, realloc and
+    // null terminate
+    if (d < str_len) {
+        code = realloc(code, (d + 1) * sizeof(char));
+        code[d + 1] = '\0';
+    }
 
     return code;
+}
+
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+    assert(argc >= 2);
+
+    char *str = argv[1];
+    char *code = refined_soundex(str);
+
+    printf("refined_soundex(\"%s\") = %s\n", str, code);
+
+    free(code);
 }

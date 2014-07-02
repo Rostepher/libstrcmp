@@ -8,34 +8,34 @@
 static char encode_char(const char c)
 {
     switch (tolower(c)) {
-        case b:
-        case p:
-        case f:
-        case v:
+        case 'b':
+        case 'f':
+        case 'p':
+        case 'v':
             return '1';
 
-        case c:
-        case s:
-        case k:
-        case g:
-        case j:
-        case q:
-        case x:
-        case z:
+        case 'c':
+        case 'g':
+        case 'j':
+        case 'k':
+        case 'q':
+        case 's':
+        case 'x':
+        case 'z':
             return '2';
 
-        case d:
-        case t:
+        case 'd':
+        case 't':
             return '3';
 
-        case l:
+        case 'l':
             return '4';
 
-        case m:
-        case n:
+        case 'm':
+        case 'n':
             return '5';
 
-        case r:
+        case 'r':
             return '6';
 
         default:
@@ -63,7 +63,7 @@ char *soundex(const char *str)
     code[0] = toupper(str[0]);
 
     // number of digits in code
-    unsigned d = 0;
+    unsigned d = 1;
 
     // encode all chars in str
     for (unsigned i = 0; i < str_len; i++)
@@ -95,4 +95,17 @@ char *soundex(const char *str)
     }
 
     return code;
+}
+
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+    assert(argc >= 2);
+
+    char *str = argv[1];
+    char *code = soundex(str);
+
+    printf("soundex(\"%s\") = %s\n", str, code);
+
+    free(code);
 }
