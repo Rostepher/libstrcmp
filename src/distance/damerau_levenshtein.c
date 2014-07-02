@@ -92,6 +92,9 @@ unsigned damerau_levenshtein(const char *str1,
 
     unsigned result = matrix[str1_len + 1][str2_len + 1];
 
+    // free dict
+    free(dict);
+
     // free matrix
     for (int i = 0; i < str1_len + 2; i++) free(matrix[i]);
     free(matrix);

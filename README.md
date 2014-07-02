@@ -34,8 +34,6 @@ Phonetic Algorithms
     * https://en.wikipedia.org/wiki/Metaphone
 4. Double Monophone
     * https://en.wikipedia.org/wiki/Metaphone#Double_Metaphone
-5. Caverphone
-    * https://en.wikipedia.org/wiki/Caverphone
 
 This library is still under development and there is no build system or test
 suite yet...

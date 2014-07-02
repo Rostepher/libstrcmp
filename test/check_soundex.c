@@ -1,38 +1,38 @@
 #include "strcmp.h"
 
-void test_soundex() {
-    const char *tests[][2] = {
-        {"Soundex",     "S532"},
-        {"Example",     "E251"},
-        {"Sownteks",    "S532"},
-        {"Ekzampul",    "E251"},
-        {"Euler",       "E460"},
-        {"Gauss",       "G200"},
-        {"Hilbert",     "H416"},
-        {"Knuth",       "K530"},
-        {"Lloyd",       "L300"},
-        {"Lukasiewicz", "L222"},
-        {"Ellery",      "E460"},
-        {"Ghosh",       "G200"},
-        {"Heilbronn",   "H416"},
-        {"Kant",        "K530"},
-        {"Ladd",        "L300"},
-        {"Lissajous",   "L222"},
-        {"Wheaton",     "W350"},
-        {"Burroughs",   "B620"},
-        {"Burrows",     "B620"},
-        {"O'Hara",      "O600"},
-        {"Washington",  "W252"},
-        {"Lee",         "L000"},
-        {"Gutierrez",   "G362"},
-        {"Pfister",     "P236"},
-        {"Jackson",     "J250"},
-        {"Tymczak",     "T522"},
-        {"VanDeusen",   "V532"},
-        {"Ashcraft",    "A261"},
-        {0, 0}
-    };
+static const char *tests[][2] = {
+    {"Soundex",     "S532"},
+    {"Example",     "E251"},
+    {"Sownteks",    "S532"},
+    {"Ekzampul",    "E251"},
+    {"Euler",       "E460"},
+    {"Gauss",       "G200"},
+    {"Hilbert",     "H416"},
+    {"Knuth",       "K530"},
+    {"Lloyd",       "L300"},
+    {"Lukasiewicz", "L222"},
+    {"Ellery",      "E460"},
+    {"Ghosh",       "G200"},
+    {"Heilbronn",   "H416"},
+    {"Kant",        "K530"},
+    {"Ladd",        "L300"},
+    {"Lissajous",   "L222"},
+    {"Wheaton",     "W350"},
+    {"Burroughs",   "B620"},
+    {"Burrows",     "B620"},
+    {"O'Hara",      "O600"},
+    {"Washington",  "W252"},
+    {"Lee",         "L000"},
+    {"Gutierrez",   "G362"},
+    {"Pfister",     "P236"},
+    {"Jackson",     "J250"},
+    {"Tymczak",     "T522"},
+    {"VanDeusen",   "V532"},
+    {"Ashcraft",    "A261"},
+    {0, 0}
+};
 
+void check_soundex() {
     printf("Testing Soundex:\n");
 
     char *sndx;
@@ -51,6 +51,6 @@ void test_soundex() {
 }
 
 int main(int argc, char *argv[]) {
-    test_soundex();
+    check_soundex();
     return 0;
 }

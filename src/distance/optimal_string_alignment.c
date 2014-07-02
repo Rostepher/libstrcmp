@@ -53,7 +53,7 @@ unsigned optimal_string_alignment(const char *str1, const char *str2)
             matrix[row][col] = MIN3(
                 matrix[row - 1][col] + 1,         // deletion
                 matrix[row][col - 1] + 1,         // insertion
-                matrix[row - 1][col - 1] + cost     // substitution
+                matrix[row - 1][col - 1] + cost   // substitution
             );
 
             // transpositions
