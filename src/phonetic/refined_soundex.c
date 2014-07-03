@@ -59,8 +59,8 @@ char *refined_soundex(const char *str)
 
     size_t str_len = strlen(str);
 
-    // allocate space for final code shrink later if too long
-    char *code = malloc((str_len + 1) * sizeof(char));
+    // final code buffer
+    char code[str_len + 1];
 
     // temporary buffer to encode string
     char buf[str_len];
@@ -93,12 +93,14 @@ char *refined_soundex(const char *str)
         }
     }
 
-    // if calculated code does not fill all the allocated space, realloc and
-    // null terminate
-    if (d < str_len) {
-        code = realloc(code, (d + 1) * sizeof(char));
-        code[d + 1] = '\0';
-    }
+    // allocate space for final code
+    // d will be length of the code + 1
+    char *result = malloc(d * sizeof(char));
 
-    return code;
+    // copy final code into result and null terminate
+    for (unsigned i = 0; i < d; i++)
+        result[i] = code[i];
+    result[d] = '\0';
+
+    return result;
 }
