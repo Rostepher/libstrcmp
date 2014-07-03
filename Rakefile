@@ -4,7 +4,7 @@ require 'rake/clean'
 CC          = "clang"
 PKGS        = ""
 CFLAGS      = "-std=c99 -ggdb -Wall -fpic"
-LDFLAGS     = `pkg-config --libs #{PKGS}`.strip
+LDFLAGS     = (`pkg-config --libs #{PKGS}`.strip << " -lm").strip
 
 TARGET      = "libstrcmp.so"
 SOURCE_DIR  = "src"
@@ -12,19 +12,15 @@ OBJECT_DIR  = "build"
 LIBRARY_DIR = "lib"
 INCLUDE_DIR = "include"
 
-SOURCE_FILES = FileList.new("#{SOURCE_DIR}/**/*.c")
+SOURCE_FILES = FileList.new("#{SOURCE_DIR}/**/*.c") do |fl|
+    fl.exclude(/metaphone/)
+end
 
 directory OBJECT_DIR
 
-task :default => ["build:lib", "build:include"]
+task :default => :all
 
-task :install do
-
-end
-
-task :uninstall do
-
-end
+task :all => ["build:lib", "build:include"]
 
 namespace :build do
     task :deps do
@@ -69,7 +65,7 @@ namespace :build do
 
         # link
         output = File.join(LIBRARY_DIR, TARGET)
-        sh "#{CC} #{object_files} -shared -o #{output}"
+        sh "#{CC} #{LDFLAGS} #{object_files} -shared -o #{output}"
     end
     CLOBBER.include(LIBRARY_DIR)
 end
@@ -77,3 +73,12 @@ end
 namespace :test do
 
 end
+
+task :install do
+
+end
+
+task :uninstall do
+
+end
+
