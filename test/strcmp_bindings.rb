@@ -86,7 +86,7 @@ module Strcmp
 
         # distance
         attach_function :ffi_damerau_levenshtein, :damerau_levenshtein, [:string, :string], :uint
-        attach_function :ffi_hamming, :hamming, [:string, :string], :uint
+        attach_function :ffi_hamming, :hamming, [:string, :string], :int
         attach_function :ffi_jaro, :jaro, [:string, :string], :double
         attach_function :ffi_jaro_winkler, :jaro_winkler, [:string, :string], :double
         attach_function :ffi_levenshtein, :levenshtein, [:string, :string], :uint
