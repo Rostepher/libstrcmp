@@ -1,20 +1,25 @@
-# Object files
+# standard directories
+build
+lib
+include
+
+# object files
 *.o
 *.ko
 *.obj
 *.elf
 
-# Libraries
+# libraries
 *.lib
 *.a
 
-# Shared objects (inc. Windows DLLs)
+# shared objects (inc. Windows DLLs)
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
+# executables
 *.exe
 *.out
 *.app

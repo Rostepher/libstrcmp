@@ -32,7 +32,7 @@ static const char *tests[][2] = {
     {0, 0}
 };
 
-void check_soundex() {
+void test_soundex() {
     printf("Testing Soundex:\n");
 
     char *sndx;

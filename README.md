@@ -31,8 +31,8 @@ Phonetic Algorithms
 2. Refined Soundex
     * http://ntz-develop.blogspot.com/2011/03/phonetic-algorithms.html
 3. Metaphone
-    * https://en.wikipedia.org/wiki/Metaphone
-4. Double Monophone
+    *https://en.wikipedia.org/wiki/Metaphone
+4. Double Metaphone
     * https://en.wikipedia.org/wiki/Metaphone#Double_Metaphone
 
 This library is still under development and there is no build system or test

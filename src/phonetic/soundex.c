@@ -96,16 +96,3 @@ char *soundex(const char *str)
 
     return code;
 }
-
-#include <stdio.h>
-int main(int argc, char **argv)
-{
-    assert(argc >= 2);
-
-    char *str = argv[1];
-    char *code = soundex(str);
-
-    printf("soundex(\"%s\") = %s\n", str, code);
-
-    free(code);
-}
