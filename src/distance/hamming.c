@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <string.h>
 
+#include "macros.h"
+
 /**
  *  Computes and returns the hamming distance between two strings. Both strings
  *  must have the same length and not be NULL.
@@ -29,7 +31,7 @@ int hamming(const char *str1, const char *str2)
 
     int dist = 0;
     while (str1_len > 0 && str2_len > 0) {
-        dist += (*str1 == *str2);
+        dist += (NOT_EQ(*str1, *str2));
         str1++, str2++;
         str1_len--, str2_len--;
     }
