@@ -83,7 +83,7 @@ double sift3(const char *str1, const char *str2, unsigned max_offset)
  *
  *  @returns sift3B distance of str1 and str2
  */
-double swift3B(const char *str1,
+double sift3B(const char *str1,
                const char *str2,
                unsigned max_offset,
                double max_dist)
