@@ -14,7 +14,7 @@
  *
  *  @returns the levenshtein distance of str1 and str2
  */
-unsigned levenshtien(const char *str1, const char *str2)
+unsigned levenshtein(const char *str1, const char *str2)
 {
     // strings cannot be NULL
     assert(str1 != NULL);
