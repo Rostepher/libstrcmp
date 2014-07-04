@@ -54,7 +54,7 @@ char *soundex(const char *str)
     size_t str_len = strlen(str);
 
     // allocate space for final code and null terminator
-    char *code = malloc(6 * sizeof(char));
+    char *code = malloc(5 * sizeof(char));
 
     // temporary buffer to encode string
     char buf[str_len];
@@ -95,7 +95,7 @@ char *soundex(const char *str)
     }
 
     // null terminate string
-    code[5] = '\0';
+    code[d] = '\0';
 
     return code;
 }
