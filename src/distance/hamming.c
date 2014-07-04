@@ -24,10 +24,13 @@ int hamming(const char *str1, const char *str2)
     size_t str1_len = strlen(str1);
     size_t str2_len = strlen(str2);
 
-    // handle cases where one or both strings are empty
-    if (str1_len != str2_len
-        || (str1_len == 0 && str2_len == 0))
+    // handle cases where strings have different lengths
+    if (str1_len != str2_len)
         return -1;
+
+    // return 0 if strings are both empty, but not NULL
+    if (str1_len == 0 && str2_len == 0)
+        return 0;
 
     int dist = 0;
     while (str1_len > 0 && str2_len > 0) {

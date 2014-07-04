@@ -34,37 +34,39 @@ unsigned damerau_levenshtein(const char *str1,
         return str1_len;
 
     // remove common substring
-    // while (str1_len > 0 && str2_len > 0
-    //        && EQ(str1[0], str2[0])) {
-    //     str1++, str2++;
-    //     str1_len--, str2_len--;
-    // }
+    while (str1_len > 0 && str2_len > 0
+           && EQ(str1[0], str2[0])) {
+        str1++, str2++;
+        str1_len--, str2_len--;
+    }
 
-    const unsigned infinity = str1_len + str2_len;
+    const unsigned INFINITY = str1_len + str2_len;
     unsigned row, col;
 
     // create "dictionary"
     unsigned *dict = calloc(alpha_size, sizeof(unsigned));
 
-    // create 2d matrix to hold calculated values
-    // initializes all values to 0
-    unsigned **matrix = malloc((str1_len + 2) * sizeof(unsigned *));
-    for (int i = 0; i < str2_len + 2; i++)
-        matrix[i] = calloc((str2_len + 2), sizeof(unsigned));
+    size_t m_rows = str1_len + 2;     // matrix rows
+    size_t m_cols = str2_len + 2;     // matrix cols
+
+    // matrix to hold computed values
+    unsigned **matrix = malloc(m_rows * sizeof(unsigned *));
+    for (unsigned i = 0; i < m_rows; i++)
+        matrix[i] = calloc(m_cols, sizeof(unsigned));
 
     // set all the starting values and add all characters to the dict
-    matrix[0][0] = infinity;
-    for (row = 1; row < str1_len + 2; row++) {
-        matrix[row][0] = infinity;
-        matrix[row][1] = row;
+    matrix[0][0] = INFINITY;
+    for (row = 1; row < m_rows; row++) {
+        matrix[row][0] = INFINITY;
+        matrix[row][1] = row - 1;
     }
-    for (col = 1; col < str2_len + 2; col++) {
-        matrix[0][col] = infinity;
-        matrix[1][col] = col;
+    for (col = 1; col < m_cols; col++) {
+        matrix[0][col] = INFINITY;
+        matrix[1][col] = col - 1;
     }
 
     unsigned db;    // no idea what this is
-    unsigned i, j;  // also no idea what these are
+    unsigned i, k;  // also no idea what these are
     unsigned cost;
 
     // fill in the matrix
@@ -72,31 +74,32 @@ unsigned damerau_levenshtein(const char *str1,
         db = 0;
 
         for (col = 1; col <= str2_len; col++) {
-            i = dict[(int) str2[col - 1]];
-            j = db;
+            i = dict[(unsigned) str2[col - 1]];
+            k = db;
             cost = EQ(str1[row - 1], str2[col - 1]) ? 0 : 1;
 
             if (cost == 0)
                 db = col;
 
             matrix[row + 1][col + 1] = MIN4(
-                matrix[row][col],
-                matrix[row + 1][col],
-                matrix[row][col + 1],
-                matrix[i][j] + (row - i - 1) + (col - j - 1) + 1
+                matrix[row][col] + cost,
+                matrix[row + 1][col] + 1,
+                matrix[row][col + 1] + 1,
+                matrix[i][k] + (row - i - 1) + (col - k - 1) + 1
             );
         }
 
-        dict[(int) str1[row - 1]] = row;
+        dict[(unsigned) str1[row - 1]] = row;
     }
 
-    unsigned result = matrix[str1_len + 1][str2_len + 1];
+    unsigned result = matrix[m_rows - 1][m_cols - 1];
 
     // free dict
     free(dict);
 
     // free matrix
-    for (int i = 0; i < str1_len + 2; i++) free(matrix[i]);
+    for (unsigned i = 0; i < m_rows; i++)
+        free(matrix[i]);
     free(matrix);
 
     return result;
