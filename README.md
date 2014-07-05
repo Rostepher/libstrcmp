@@ -2,8 +2,7 @@
 
 libstrcmp is a library dedicated to fast C implementations of various string
 distance metrics and phonetic metrics. The metrics provided in libstrcmp are
-useful in fuzzy-string matching and autocomplete as well as natural-language
-processing.
+useful in fuzzy-string matching as well as natural-language processing.
 
 ##Algorithms
 Algorithms that are currently implemented or plan to be
