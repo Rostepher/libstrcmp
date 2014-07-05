@@ -1,6 +1,3 @@
-// Sift3 algorithm created by Siderite Zackwehdex
-// http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
-
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
@@ -9,12 +6,10 @@
 #include "macros.h"
 
 
-// TODO make max_offset and max_dist optional with -1 value
-
 /**
- *  Computes and returns the fast sift3 distance between two strings. The
- *  closer the returned value is to 0, the more similar the two strings are.
- *  With 0 being an exact match. The max offset should be around 5ish.
+ *  Computes and returns the fast sift3 distance between two non NULL strings.
+ *  More information about the algorithm can be found here:
+ *      http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
  *
  *  @param str1 first non NULL string
  *  @param str2 second non NULL string
@@ -71,9 +66,9 @@ double sift3(const char *str1, const char *str2, unsigned max_offset)
 }
 
 /**
- *  Computes and returns the fast sift3B distance between two strings. The
- *  closer the returned value is to 0, the more similar the two strings are.
- *  With 0 being an exact match. The max offset should be around 5ish.
+ *  Computes and returns the fast sift3B distance between two non NULL strings.
+ *  More information about the algorithm can be found here:
+ *      http://siderite.blogspot.com/2007/04/super-fast-and-accurate-string-distance.html
  *
  *  @param str1 first string
  *  @param str2 second string

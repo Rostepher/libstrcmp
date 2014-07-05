@@ -7,7 +7,9 @@
 
 
 /**
- *  Calculates and returns the Jaro distance of two strings.
+ *  Calculates and returns the Jaro distance of two non NULL strings.
+ *  More information about the algorithm can be found here:
+ *      http://en.wikipedia.org/wiki/Jaro-Winkler_distance
  *
  *  @param str1 first non NULL string
  *  @param str2 second non NULL string
@@ -97,6 +99,8 @@ double jaro(const char *str1, const char *str2)
 
 /**
  *  Calculates and returns the Jaro-Winkler distance of two non NULL strings.
+ *  More information about the algorithm can be found here:
+ *      http://en.wikipedia.org/wiki/Jaro-Winkler_distance
  *
  *  @param str1 first non NULL string
  *  @param str2 second non NULL string

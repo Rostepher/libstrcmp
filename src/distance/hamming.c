@@ -4,12 +4,15 @@
 
 #include "macros.h"
 
+
 /**
  *  Computes and returns the hamming distance between two strings. Both strings
- *  must have the same length and not be NULL.
+ *  must have the same length and not be NULL. More information about the
+ *  algorithm can be found here:
+ *      http://en.wikipedia.org/wiki/Hamming_distance
  *
- *  @param str1 first string
- *  @param str2 second string
+ *  @param str1 first non NULL string
+ *  @param str2 second non NULL string
  *
  *  @returns hamming distance or -1 if str1 and st2 did not have the same
  *      length or if one or both str1 and str2 were NULL

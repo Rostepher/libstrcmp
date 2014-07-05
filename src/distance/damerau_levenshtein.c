@@ -7,7 +7,8 @@
 
 /**
  *  Calculates and returns the Damerau-Levenshtein distance of two non NULL
- *  strings.
+ *  strings. More information about the algorithm can be found here:
+ *      https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
  *
  *  @param str1 first non NULL string
  *  @param str2 second non NULL string

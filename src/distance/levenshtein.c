@@ -4,6 +4,7 @@
 
 #include "macros.h"
 
+
 /**
  *  Calculates and returns the Levenshtein distance of two non NULL strings.
  *  More information about the algorithm can be found here:

@@ -6,6 +6,14 @@
 
 
 /**
+ *  Computes and returns the Optimal String Alignment distance for two non NULL
+ *  strings. More information about the algorithm can be found here:
+ *      https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
+ *
+ *  @param str1 first non NULL string
+ *  @param str2 second non NULL string
+ *
+ *  @returns optimal string alignment distance for str1 and str2
  *
  */
 unsigned optimal_string_alignment(const char *str1, const char *str2)
@@ -71,6 +79,7 @@ unsigned optimal_string_alignment(const char *str1, const char *str2)
 
     result = matrix[str1_len][str2_len];
 
+    // free matrix
     for (unsigned i = 0; i < str1_len + 1; i++)
         free(matrix[i]);
     free(matrix);
