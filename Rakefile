@@ -27,16 +27,14 @@ CLOBBER.include("Gemfile.lock")
 
 desc "Compile and link source files into a shared object file"
 task :build => :link do
-    # grab all relavent headers
-    headers = FileList.new("#{SOURCE_DIR}/**/*.h") do |fl|
-        fl.exclude(/macros\.h/)
-    end
+    # grab relavent header
+    header = File.join(SOURCE_DIR, "strcmp.h")
 
     # create include dir
     mkdir_p INCLUDE_DIR
 
     # copy headers into include dir
-    cp(headers.join(' '), INCLUDE_DIR)
+    cp(header, INCLUDE_DIR)
 end
 CLOBBER.include(INCLUDE_DIR)
 
