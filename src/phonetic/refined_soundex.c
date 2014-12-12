@@ -6,14 +6,12 @@
 #include "macros.h"
 
 
-/**
- *  Helper function that returns the numeric code for a given char as specified
- *  by the refined soundex algorithm.
- *
- *  @param c char to encode
- *
- *  @returns char representation of the number associated with the given char
- */
+/// Helper function that returns the numeric code for a given char as specified
+/// by the refined soundex algorithm.
+///
+/// @param c char to encode
+///
+/// @returns char representation of the number associated with the given char
 static char encode_char(const char c)
 {
     switch (tolower(c)) {
@@ -57,19 +55,17 @@ static char encode_char(const char c)
             break;
     }
 
-    // otherwise return '0'
     return '0';
 }
 
-/**
- *  Computes and returns the soundex representation of a given non NULL string.
- *  More information about the algorithm can be found here:
- *      http://ntz-develop.blogspot.com/2011/03/phonetic-algorithms.html
- *
- *  @param str non NULL string to encode
- *
- *  @returns soundex representation of str
- */
+
+/// Computes and returns the soundex representation of a given non NULL string.
+/// More information about the algorithm can be found here:
+///     http://ntz-develop.blogspot.com/2011/03/phonetic-algorithms.html
+///
+/// @param str non NULL string to encode
+///
+/// @returns soundex representation of str
 char *refined_soundex(const char *str)
 {
     // string cannot be NULL
@@ -96,7 +92,6 @@ char *refined_soundex(const char *str)
     // add all viable chars to code
     char prev = '\0';
     for (unsigned i = 0; i < str_len; i++) {
-
         // check if current char in buf is not the same as previous char
         if (NOT_EQ(buf[i], prev)) {
 
@@ -116,9 +111,11 @@ char *refined_soundex(const char *str)
     char *result = malloc(d * sizeof(char));
 
     // copy final code into result and null terminate
-    for (unsigned i = 0; i < d; i++)
+    for (unsigned i = 0; i < d; i++) {
         result[i] = code[i];
+    }
     result[d] = '\0';
 
     return result;
 }
+

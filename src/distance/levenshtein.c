@@ -5,35 +5,33 @@
 #include "macros.h"
 
 
-/**
- *  Calculates and returns the Levenshtein distance of two non NULL strings.
- *  More information about the algorithm can be found here:
- *      https://en.wikipedia.org/wiki/Levenshtein_distance
- *
- *  @param str1 first non NULL string
- *  @param str2 second non NULL string
- *
- *  @returns the levenshtein distance of str1 and str2
- */
+/// Calculates and returns the Levenshtein distance of two non NULL strings.
+/// More information about the algorithm can be found here:
+///     https://en.wikipedia.org/wiki/Levenshtein_distance
+///
+/// @param str1 first non NULL string
+/// @param str2 second non NULL string
+///
+/// @returns the levenshtein distance of str1 and str2
 unsigned levenshtein(const char *str1, const char *str2)
 {
     // strings cannot be NULL
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    // calculate size of strings
     size_t str1_len = strlen(str1);
     size_t str2_len = strlen(str2);
 
     // handle cases where one or both strings are empty
-    if (str1_len == 0)
+    if (str1_len == 0) {
         return str2_len;
-    if (str2_len == 0)
+    }
+    if (str2_len == 0) {
         return str1_len;
+    }
 
     // remove common substring
-    while (str1_len > 0 && str2_len > 0
-           && EQ(str1[0], str2[0])) {
+    while (str1_len > 0 && str2_len > 0 && EQ(str1[0], str2[0])) {
         str1++, str2++;
         str1_len--, str2_len--;
     }
@@ -44,8 +42,9 @@ unsigned levenshtein(const char *str1, const char *str2)
 
     // initialize array to hold values
     unsigned *vector = calloc(str1_len + 1,  sizeof(unsigned));
-    for (col = 1; col <= str1_len; col++)
+    for (col = 1; col <= str1_len; col++) {
         vector[col] = col;
+    }
 
     // itterate through the imagined rows of arrays
     for (row = 1; row <= str2_len + 1; row++) {
@@ -75,3 +74,4 @@ unsigned levenshtein(const char *str1, const char *str2)
     free(vector);
     return last_diag;
 }
+

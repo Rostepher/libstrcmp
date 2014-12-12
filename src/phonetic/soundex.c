@@ -6,14 +6,12 @@
 #include "macros.h"
 
 
-/**
- *  Helper function that returns the numeric code for a given char as specified
- *  by the soundex algorithm.
- *
- *  @param c char to encode
- *
- *  @returns char representation of the number associated with the given char
- */
+/// Helper function that returns the numeric code for a given char as specified
+/// by the soundex algorithm.
+///
+/// @param c char to encode
+///
+/// @returns char representation of the number associated with the given char
 static char encode_char(const char c)
 {
     switch (tolower(c)) {
@@ -51,19 +49,17 @@ static char encode_char(const char c)
             break;
     }
 
-    // otherwise return '0'
     return '0';
 }
 
-/**
- *  Computes and returns the soundex representation of a given non NULL string.
- *  More information about the algorithm can be found here:
- *      https://en.wikipedia.org/wiki/Soundex
- *
- *  @param str non NULL string to encode
- *
- *  @returns soundex representation of str
- */
+
+/// Computes and returns the soundex representation of a given non NULL string.
+/// More information about the algorithm can be found here:
+///     https://en.wikipedia.org/wiki/Soundex
+///
+/// @param str non NULL string to encode
+///
+/// @returns soundex representation of str
 char *soundex(const char *str)
 {
     // string cannot be NULL
@@ -84,19 +80,19 @@ char *soundex(const char *str)
     unsigned d = 1;
 
     // encode all chars in str
-    for (unsigned i = 0; i < str_len; i++)
+    for (unsigned i = 0; i < str_len; i++) {
         buf[i] = encode_char(str[i]);
+    }
 
     // add all viable chars to code
     for (unsigned i = 1; i < str_len && d < 4; i++) {
-
         // check if current char in buf is not the same as previous char
         // and that the current char is not '0'
         if (NOT_EQ(buf[i], buf[i - 1]) && NOT_EQ(buf[i], '0')) {
-
             // if digits separated by an 'h' or 'w' are the same, skip them
-            if (i > 1 && EQ(buf[i], buf[i - 2]) && strchr("hw", str[i - 1]))
+            if (i > 1 && EQ(buf[i], buf[i - 2]) && strchr("hw", str[i - 1])) {
                 continue;
+            }
 
             // add digit to the code
             code[d] = buf[i];
@@ -117,3 +113,4 @@ char *soundex(const char *str)
 
     return code;
 }
+

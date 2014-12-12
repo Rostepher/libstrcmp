@@ -16,3 +16,4 @@ char *soundex(const char *);
 char *refined_soundex(const char *);
 
 #endif STRCMP_H
+

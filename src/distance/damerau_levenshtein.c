@@ -5,17 +5,15 @@
 #include "macros.h"
 
 
-/**
- *  Calculates and returns the Damerau-Levenshtein distance of two non NULL
- *  strings. More information about the algorithm can be found here:
- *      https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
- *
- *  @param str1 first non NULL string
- *  @param str2 second non NULL string
- *  @param alpha_size size of the alphabet
- *
- *  @returns Damerau-Levenshtein distance of str1 and str2
- */
+/// Calculates and returns the Damerau-Levenshtein distance of two non NULL
+/// strings. More information about the algorithm can be found here:
+///     https://en.wikipedia.org/wiki/Damerau-Levenshtein_distance
+///
+/// @param str1 first non NULL string
+/// @param str2 second non NULL string
+/// @param alpha_size size of the alphabet
+///
+/// @returns Damerau-Levenshtein distance of str1 and str2
 unsigned damerau_levenshtein(const char *str1,
                              const char *str2,
                              const unsigned alpha_size)
@@ -24,19 +22,19 @@ unsigned damerau_levenshtein(const char *str1,
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    // calculate size of strings
     size_t str1_len = strlen(str1);
     size_t str2_len = strlen(str2);
 
     // handle cases where one or both strings are empty
-    if (str1_len == 0)
+    if (str1_len == 0) {
         return str2_len;
-    if (str2_len == 0)
+    }
+    if (str2_len == 0) {
         return str1_len;
+    }
 
     // remove common substring
-    while (str1_len > 0 && str2_len > 0
-           && EQ(str1[0], str2[0])) {
+    while (str1_len > 0 && str2_len > 0 && EQ(str1[0], str2[0])) {
         str1++, str2++;
         str1_len--, str2_len--;
     }
@@ -52,8 +50,9 @@ unsigned damerau_levenshtein(const char *str1,
 
     // matrix to hold computed values
     unsigned **matrix = malloc(m_rows * sizeof(unsigned *));
-    for (unsigned i = 0; i < m_rows; i++)
+    for (unsigned i = 0; i < m_rows; i++) {
         matrix[i] = calloc(m_cols, sizeof(unsigned));
+    }
 
     // set all the starting values and add all characters to the dict
     matrix[0][0] = INFINITY;
@@ -66,8 +65,8 @@ unsigned damerau_levenshtein(const char *str1,
         matrix[1][col] = col - 1;
     }
 
-    unsigned db;    // no idea what this is
-    unsigned i, k;  // also no idea what these are
+    unsigned db;
+    unsigned i, k;
     unsigned cost;
 
     // fill in the matrix
@@ -79,8 +78,9 @@ unsigned damerau_levenshtein(const char *str1,
             k = db;
             cost = EQ(str1[row - 1], str2[col - 1]) ? 0 : 1;
 
-            if (cost == 0)
+            if (cost == 0) {
                 db = col;
+            }
 
             matrix[row + 1][col + 1] = MIN4(
                 matrix[row][col] + cost,
@@ -95,13 +95,13 @@ unsigned damerau_levenshtein(const char *str1,
 
     unsigned result = matrix[m_rows - 1][m_cols - 1];
 
-    // free dict
+    // free allocated memory
     free(dict);
-
-    // free matrix
-    for (unsigned i = 0; i < m_rows; i++)
+    for (unsigned i = 0; i < m_rows; i++) {
         free(matrix[i]);
+    }
     free(matrix);
 
     return result;
 }
+

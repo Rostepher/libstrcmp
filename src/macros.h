@@ -19,3 +19,4 @@
 #define MAX4(a, b, c, d) MAX(MAX(a, b), MAX(b, c))
 
 #endif // STRCMP_MACROS_H
+

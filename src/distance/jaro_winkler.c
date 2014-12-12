@@ -6,36 +6,35 @@
 #include "macros.h"
 
 
-/**
- *  Calculates and returns the Jaro distance of two non NULL strings.
- *  More information about the algorithm can be found here:
- *      http://en.wikipedia.org/wiki/Jaro-Winkler_distance
- *
- *  @param str1 first non NULL string
- *  @param str2 second non NULL string
- *
- *  @returns the jaro distance of str1 and str2
- */
+/// Calculates and returns the Jaro distance of two non NULL strings.
+/// More information about the algorithm can be found here:
+///     http://en.wikipedia.org/wiki/Jaro-Winkler_distance
+///
+/// @param str1 first non NULL string
+/// @param str2 second non NULL string
+///
+/// @returns the jaro distance of str1 and str2
 double jaro(const char *str1, const char *str2)
 {
     // strings cannot be NULL
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    // length of the strings, stops the repeated use of strlen
     int str1_len = strlen(str1);
     int str2_len = strlen(str2);
 
     // if both strings are empty return 1
     // if only one of the strings is empty return 0
-    if (str1_len == 0)
+    if (str1_len == 0) {
         return (str2_len == 0) ? 1.0 : 0.0;
+    }
 
     // max distance between two chars to be considered matching
     // floor() is ommitted due to integer division rules
-    int match_dist = (int) MAX(str1_len, str2_len)/2 - 1;
+    int match_dist = (int) MAX(str1_len, str2_len) / 2 - 1;
 
-    // arrays of bools that signify if that char in the matcing string has a match
+    // arrays of bools that signify if that char in the matcing string has a
+    // match
     int *str1_matches = calloc(str1_len, sizeof(int));
     int *str2_matches = calloc(str2_len, sizeof(int));
 
@@ -49,12 +48,13 @@ double jaro(const char *str1, const char *str2)
         int start = MAX(0, i - match_dist);
         int end = MIN(i + match_dist + 1, str2_len);
 
-        // add comments...
         for (int k = start; k < end; k++) {
-            // if str2 already has a match continue
-            if (str2_matches[k]) continue;
-            // if str1 and str2 are not
-            if (NOT_EQ(str1[i], str2[k])) continue;
+            // if str2 already has a match or str1 and str2 are not equal
+            // continue
+            if (str2_matches[k] || NOT_EQ(str1[i], str2[k]) {
+                continue;
+            }
+
             // otherwise assume there is a match
             str1_matches[i] = true;
             str2_matches[k] = true;
@@ -74,11 +74,20 @@ double jaro(const char *str1, const char *str2)
     int k = 0;
     for (int i = 0; i < str1_len; i++) {
         // if there are no matches in str1 continue
-        if (!str1_matches[i]) continue;
+        if (!str1_matches[i]) {
+            continue;
+        }
+
         // while there is no match in str2 increment k
-        while (!str2_matches[k]) k++;
+        while (!str2_matches[k]) {
+            k++;
+        }
+
         // increment trans
-        if (NOT_EQ(str1[i], str2[k])) trans++;
+        if (NOT_EQ(str1[i], str2[k])) {
+            trans++;
+        }
+
         k++;
     }
 
@@ -87,26 +96,25 @@ double jaro(const char *str1, const char *str2)
     // instances of the transposed characters.
     trans /= 2.0;
 
-    // cleanup
+    // free allocated memory
     free(str1_matches);
     free(str2_matches);
 
     // return the jaro distance
     return ((matches / str1_len) +
-        (matches / str2_len) +
-        ((matches - trans) / matches)) / 3.0;
+           (matches / str2_len) +
+           ((matches - trans) / matches)) / 3.0;
 }
 
-/**
- *  Calculates and returns the Jaro-Winkler distance of two non NULL strings.
- *  More information about the algorithm can be found here:
- *      http://en.wikipedia.org/wiki/Jaro-Winkler_distance
- *
- *  @param str1 first non NULL string
- *  @param str2 second non NULL string
- *
- *  @returns the jaro-winkler distance of str1 and str2
- */
+
+/// Calculates and returns the Jaro-Winkler distance of two non NULL strings.
+/// More information about the algorithm can be found here:
+///     http://en.wikipedia.org/wiki/Jaro-Winkler_distance
+///
+/// @param str1 first non NULL string
+/// @param str2 second non NULL string
+///
+/// @returns the jaro-winkler distance of str1 and str2
 double jaro_winkler(const char *str1, const char *str2)
 {
     // strings cannot be NULL
@@ -118,9 +126,13 @@ double jaro_winkler(const char *str1, const char *str2)
 
     // finds the number of common terms in the first 3 strings, max 3.
     int prefix_length = 0;
-    if (strlen(str1) != 0 && strlen(str2) != 0)
-        while (prefix_length < 3 && EQ(*str1++, *str2++)) prefix_length++;
+    if (strlen(str1) != 0 && strlen(str2) != 0) {
+        while (prefix_length < 3 && EQ(*str1++, *str2++)) {
+            prefix_length++;
+        }
+    }
 
     // 0.1 is the default scaling factor
     return dist + prefix_length * 0.1 * (1 - dist);
 }
+

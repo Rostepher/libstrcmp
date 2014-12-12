@@ -2,6 +2,7 @@ require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
 
+
 CC          = "clang"
 CFLAGS      = "-std=c99 -ggdb -Wall -fpic"
 LDFLAGS     = "-lm"
@@ -12,18 +13,22 @@ OBJECT_DIR  = "build"
 LIBRARY_DIR = "lib"
 INCLUDE_DIR = "include"
 
+
 SOURCE_FILES = FileList.new("#{SOURCE_DIR}/**/*.c") do |fl|
     fl.exclude(/metaphone/)
 end
 
+
 desc "Default task builds project"
 task :default => :build
+
 
 desc "Use bundler to install necessary gems"
 task :bundle => "Gemfile" do
     sh "bundle install"
 end
 CLOBBER.include("Gemfile.lock")
+
 
 desc "Compile and link source files into a shared object file"
 task :build => :link do
@@ -37,6 +42,7 @@ task :build => :link do
     cp(header, INCLUDE_DIR)
 end
 CLOBBER.include(INCLUDE_DIR)
+
 
 desc "Compile source files to object files"
 task :compile
@@ -59,6 +65,7 @@ SOURCE_FILES.each do |source|
 end
 CLEAN.include('**/*.o', 'build')
 
+
 desc "Link compiled object files to a shared object file (library)"
 task :link => :compile do
     # find all object files in build
@@ -73,13 +80,16 @@ task :link => :compile do
 end
 CLOBBER.include(LIBRARY_DIR)
 
+
 desc "Runs the RSpec test suite"
 RSpec::Core::RakeTask.new(:spec) do |t|
     t.verbose = false
 end
 
+
 desc "Installs library and related documentation"
 task :install
+
 
 desc "Uninstalls library and related documentation"
 task :uninstall
